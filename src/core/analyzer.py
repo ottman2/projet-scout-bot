@@ -64,6 +64,9 @@ def get_player_map_stats(stats_data: dict | None) -> list[dict[str, Any]]:
                 "name": label.replace("de_", "").capitalize(),
                 "matches": matches,
                 "winrate": map_stats.get("Win Rate %", "N/A"),
+                "hs_percent": map_stats.get("Average Headshots %", "N/A"),
+                "avg_kills": map_stats.get("Average Kills", "N/A"),
+                "mvps": map_stats.get("MVPs", "N/A"),
             }
             for kd_key in ("Average K/D Ratio", "K/D Ratio"):
                 if kd_key in map_stats:

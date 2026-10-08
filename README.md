@@ -54,6 +54,7 @@ Le bot doit avoir l’intent Discord `message_content` activé pour lire les com
 - `!setmatch <équipe>` : rapport paginé d’avant-match avec une page équipe, une page dédiée au veto interactif, puis les résumés visuels des joueurs. Le veto suit GandaltF4 A ban 1, B ban 2, A ban 2, B ban 1 ; la dernière map restante est automatiquement déclarée jouée. L’auteur saisit les décisions avec les boutons d’annulation et de réinitialisation.
 - `!scout <équipe>` : statistiques de maps de l’équipe.
 - `!player <pseudo>` : profil, statistiques, équipes, maps et historique de compétitions disponibles.
+- `!compare <joueur1> <joueur2>` : compare les statistiques de deux joueurs côte à côte.
 - `!veto <équipe>` : compare les statistiques FACEIT 5v5 de GandaltF4 à celles de l'adversaire, puis recommande un pick et un ban.
 
 Le service `get_full_team_stats(client, team_name)` dans `src.services.team_service` renvoie l'équipe trouvée, ses statistiques FACEIT brutes et normalisées par map, ainsi que chaque membre du roster accompagné de son profil et de ses statistiques de joueur disponibles. Il s'agit d'une fonction Python interne, pas d'une commande Discord.
