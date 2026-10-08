@@ -39,7 +39,7 @@ DISCORD_TOKEN=your_token_here
 
 Les deux variables sont requises au démarrage. Ne pas publier ce fichier ni y inscrire de secrets dans le code.
 
-## Lancement
+## Lancement Local
 
 Depuis la racine du dépôt :
 
@@ -49,12 +49,22 @@ python -m src.main
 
 Le bot doit avoir l’intent Discord `message_content` activé pour lire les commandes préfixées.
 
+## Hébergement 24/7 (Render)
+
+Ce bot intègre un serveur web de maintien en vie (`aiohttp.web`) lui permettant d'être hébergé gratuitement en tant que *Web Service* sur [Render.com](https://render.com/).
+1. Créez un **Web Service** lié à votre dépôt GitHub.
+2. Appliquez cette configuration :
+   - **Build Command** : `pip install -r requirements.txt`
+   - **Start Command** : `python -m src.main`
+   - **Environment Variables** : Ajoutez vos clés `FACEIT_API_KEY` et `DISCORD_TOKEN`.
+3. Pour empêcher Render de mettre le bot en veille, utilisez un service comme [cron-job.org](https://cron-job.org/) pour "visiter" l'URL Render de votre bot (`https://votre-bot.onrender.com`) toutes les 10 minutes.
+
 ## Commandes
 
 - `!setmatch <équipe>` : rapport paginé d’avant-match avec une page équipe, une page dédiée au veto interactif, puis les résumés visuels des joueurs. Le veto suit GandaltF4 A ban 1, B ban 2, A ban 2, B ban 1 ; la dernière map restante est automatiquement déclarée jouée. L’auteur saisit les décisions avec les boutons d’annulation et de réinitialisation.
 - `!scout <équipe>` : statistiques de maps de l’équipe.
 - `!player <pseudo>` : profil, statistiques, équipes, maps et historique de compétitions disponibles.
-- `!compare <joueur1> <joueur2>` : compare les statistiques de deux joueurs côte à côte.
+- `!compare <joueur1> <joueur2>` : compare les statistiques de deux joueurs côte à côte avec une page globale, puis affiche des pages détaillées (paginées) pour leurs 10 maps les plus jouées (Matches, Win Rate, K/D, HS%, Kills/Match, MVPs).
 - `!veto <équipe>` : compare les statistiques FACEIT 5v5 de GandaltF4 à celles de l'adversaire, puis recommande un pick et un ban.
 
 Le service `get_full_team_stats(client, team_name)` dans `src.services.team_service` renvoie l'équipe trouvée, ses statistiques FACEIT brutes et normalisées par map, ainsi que chaque membre du roster accompagné de son profil et de ses statistiques de joueur disponibles. Il s'agit d'une fonction Python interne, pas d'une commande Discord.
