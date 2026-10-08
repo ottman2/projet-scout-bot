@@ -40,8 +40,29 @@ async def on_command_error(ctx, error):
     await ctx.send("❌ Une erreur est survenue pendant le traitement de la commande.")
 
 
+import os
+from aiohttp import web
+
+async def handle_web(request):
+    return web.Response(text="Scout Bot is awake!")
+
+async def start_web_server():
+    app = web.Application()
+    app.router.add_get('/', handle_web)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    port = int(os.environ.get("PORT", 8080))
+    site = web.TCPSite(runner, '0.0.0.0', port)
+    await site.start()
+    logger.info(f"Serveur web de maintien en vie démarré sur le port {port}")
+
+
 async def run_bot() -> None:
     config = load_config()
+    
+    # Démarrage du serveur web pour satisfaire Render.com
+    await start_web_server()
+
     timeout = aiohttp.ClientTimeout(total=15)
     async with aiohttp.ClientSession(timeout=timeout) as session:
         bot.faceit_client = FaceitClient(session, config.faceit_api_key, timeout_seconds=15)
