@@ -51,7 +51,7 @@ Le bot doit avoir l’intent Discord `message_content` activé pour lire les com
 
 ## Commandes
 
-- `!setmatch <équipe>` : rapport d’avant-match avec maps et membres de l’équipe.
+- `!setmatch <équipe>` : rapport paginé d’avant-match avec une page équipe, une page dédiée au veto interactif, puis les résumés visuels des joueurs. Le veto suit GandaltF4 A ban 1, B ban 2, A ban 2, B ban 1 ; la dernière map restante est automatiquement déclarée jouée. L’auteur saisit les décisions avec les boutons d’annulation et de réinitialisation.
 - `!scout <équipe>` : statistiques de maps de l’équipe.
 - `!player <pseudo>` : profil, statistiques, équipes, maps et historique de compétitions disponibles.
 - `!veto <équipe>` : compare les statistiques FACEIT 5v5 de GandaltF4 à celles de l'adversaire, puis recommande un pick et un ban.
