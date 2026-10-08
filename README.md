@@ -56,6 +56,8 @@ Le bot doit avoir l’intent Discord `message_content` activé pour lire les com
 - `!player <pseudo>` : profil, statistiques, équipes, maps et historique de compétitions disponibles.
 - `!veto <équipe>` : compare les statistiques FACEIT 5v5 de GandaltF4 à celles de l'adversaire, puis recommande un pick et un ban.
 
+Le service `get_full_team_stats(client, team_name)` dans `src.services.team_service` renvoie l'équipe trouvée, ses statistiques FACEIT brutes et normalisées par map, ainsi que chaque membre du roster accompagné de son profil et de ses statistiques de joueur disponibles. Il s'agit d'une fonction Python interne, pas d'une commande Discord.
+
 ## Architecture
 
 - `src/bot/commands/` : commandes et rendu Discord.
