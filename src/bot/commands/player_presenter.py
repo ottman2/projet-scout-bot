@@ -55,18 +55,21 @@ def build_player_embeds(requested_nickname: str, data: dict) -> list[discord.Emb
         "Win Rate %": "Win Rate",
         "Average K/D Ratio": "K/D",
         "Average Headshots %": "Headshot %",
-        "Recent Results": None,
-        "Current Win Streak": None,
+        "ADR": "ADR",
+        "Longest Win Streak": "Longest Win Streak",
+        "1v1 Win Rate": "1v1 Win Rate",
+        "1v2 Win Rate": "1v2 Win Rate",
+        "Entry Success Rate": "Entry Success Rate",
+        "Sniper Kill Rate per Round": "Sniper Kill Rate / Round",
+        "Utility Damage per Round": "Utility Damage / Round",
+        "Flashes per Round": "Flashes / Round",
+        "Enemies Flashed per Round": "Enemies Flashed / Round",
     }
     
     stats_lines = []
     for key, label in known_stats.items():
-        if label is not None:
+        if key in lifetime and lifetime.get(key) is not None:
             stats_lines.append(f"**{label}:** {_safe(lifetime.get(key))}")
-            
-    for key, value in lifetime.items():
-        if key not in known_stats and value is not None:
-            stats_lines.append(f"**{_safe(key)}:** {_safe(value)}")
             
     _append_section(embeds, "📊 GLOBAL STATS", stats_lines, "Statistiques indisponibles.")
 
