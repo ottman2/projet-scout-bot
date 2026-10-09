@@ -8,7 +8,7 @@ from src.services.faceit import _get_optional_data
 logger = logging.getLogger(__name__)
 
 # ID du channel de test/reporting
-TARGET_CHANNEL_ID = 1557425631996936315
+TARGET_CHANNEL_ID = 1557783363715211394
 
 # Joueur utilisé comme référence pour traquer les matchs de l'équipe
 # On prend le pseudo du leader ou d'un joueur régulier
