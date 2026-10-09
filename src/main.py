@@ -66,6 +66,10 @@ async def run_bot() -> None:
     timeout = aiohttp.ClientTimeout(total=15)
     async with aiohttp.ClientSession(timeout=timeout) as session:
         bot.faceit_client = FaceitClient(session, config.faceit_api_key, timeout_seconds=15)
+        
+        # Charger la tâche d'auto-report
+        await bot.load_extension("src.bot.tasks.auto_report")
+        
         await bot.start(config.discord_token)
 
 
