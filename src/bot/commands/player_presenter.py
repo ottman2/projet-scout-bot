@@ -25,13 +25,25 @@ def build_player_embeds(requested_nickname: str, data: dict) -> list[discord.Emb
     flag = f":flag_{str(country).lower()}:" if country != "N/A" else "🏳️"
 
     embeds: list[discord.Embed] = []
+    description = (
+        f"**Nationality:** {_safe(country)} {flag}\n"
+        f"**FACEIT Level:** {_safe(cs2.get('skill_level'))}\n"
+        f"**Elo:** {_safe(cs2.get('faceit_elo'))}"
+    )
+
+    recent_results = lifetime.get("Recent Results")
+    if isinstance(recent_results, list):
+        form_str = " ".join("🟢" if str(r) == "1" else "🔴" for r in recent_results)
+        if form_str:
+            description += f"\n**Forme:** {form_str}"
+
+    current_streak = lifetime.get("Current Win Streak")
+    if current_streak and str(current_streak) != "0":
+        description += f"\n**Série en cours:** {_safe(current_streak)} victoire(s)"
+
     overview = discord.Embed(
         title=f"👤 PLAYER — {nickname}",
-        description=(
-            f"**Nationality:** {_safe(country)} {flag}\n"
-            f"**FACEIT Level:** {_safe(cs2.get('skill_level'))}\n"
-            f"**Elo:** {_safe(cs2.get('faceit_elo'))}"
-        ),
+        description=description,
         color=0x3498DB,
     )
     if profile.get("avatar"):
@@ -40,13 +52,22 @@ def build_player_embeds(requested_nickname: str, data: dict) -> list[discord.Emb
 
     known_stats = {
         "Matches": "Matches",
+        "Win Rate %": "Win Rate",
         "Average K/D Ratio": "K/D",
         "Average Headshots %": "Headshot %",
+        "Recent Results": None,
+        "Current Win Streak": None,
     }
-    stats_lines = [f"**{label}:** {_safe(lifetime.get(key))}" for key, label in known_stats.items()]
+    
+    stats_lines = []
+    for key, label in known_stats.items():
+        if label is not None:
+            stats_lines.append(f"**{label}:** {_safe(lifetime.get(key))}")
+            
     for key, value in lifetime.items():
         if key not in known_stats and value is not None:
             stats_lines.append(f"**{_safe(key)}:** {_safe(value)}")
+            
     _append_section(embeds, "📊 GLOBAL STATS", stats_lines, "Statistiques indisponibles.")
 
     team_lines = []
