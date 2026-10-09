@@ -96,11 +96,22 @@ def _player_card(entry: dict) -> tuple[str, str]:
 
     lines = [
         f"**{_display(cs2.get('faceit_elo'))} Elo** · Niveau **{_display(cs2.get('skill_level'))}**",
+    ]
+
+    recent_results = lifetime.get("Recent Results")
+    if isinstance(recent_results, list):
+        form_str = "".join("🟢" if str(r) == "1" else "🔴" for r in recent_results)
+        if form_str:
+            current_streak = lifetime.get("Current Win Streak")
+            streak_str = f" · 🔥 {current_streak}W" if current_streak and str(current_streak) != "0" else ""
+            lines.append(f"Forme {form_str}{streak_str}")
+
+    lines.extend([
         f"K/D **{_display(kd)}**  ·  ADR **{_display(adr)}**",
         f"WR **{_percent(wr)}**  `{_bar(wr)}`",
         f"HS **{_percent(hs)}**  `{_bar(hs)}`",
         f"Matchs **{_display(matches)}**" + (f" · Victoires **{wins}**" if wins is not None else ""),
-    ]
+    ])
 
     player_maps = player.get("map_stats") if isinstance(player.get("map_stats"), list) else []
     normalized_maps = {}
